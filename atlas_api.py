@@ -22,7 +22,7 @@ class atlas_request:
 				 influence=None, watchlist_ids=None, dictionary_ids=None, source_ids=None,
 				 languages=None, channels=None, countries=None, states=None, gender=None,
 				 age=None, weekdays=None, hours=None, hour_min=None, hour_max=None, sample=None,
-				 found_from=None, found_to=None, id_min=None, id_max=None, firehose_id=None):
+				 found_from=None, found_to=None, id_min=None, id_max=None, firehose_id=None, financial=None):
 		
 		# Parse args
 		args = locals()
