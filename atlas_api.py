@@ -46,7 +46,7 @@ class atlas_request:
 
 		uri_string = self.ATLAS_API_BASE_URL + endpoint + '?api_key=' + self.ATLAS_API_KEY
 
-		for k in [k for k in dir(self) if not callable(getattr(self, k)) and not k.startswith('__') and not k.isupper()]:
+		for k in [k for k in dir(self) if not callable(getattr(self, k)) and not k.startswith('_') and not k.isupper()]:
 			v = getattr(self, k)
 			if v is None:
 				continue
