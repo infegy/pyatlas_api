@@ -17,22 +17,14 @@ class atlas_request:
 	ATLAS_API_BASE_URL = 'https://atlas.infegy.com/api/v2/'
 
 
-	def __init__(self, query, start_date='3 months ago', end_date='now',
-				 language=None, query_within=None, source_query=None, source_query_exclude=None,
-				 influence=None, watchlist_ids=None, dictionary_ids=None, source_ids=None,
-				 languages=None, channels=None, countries=None, states=None, gender=None,
-				 age=None, weekdays=None, hours=None, hour_min=None, hour_max=None, sample=None,
-				 found_from=None, found_to=None, id_min=None, id_max=None, firehose_id=None,
-				 financial=None, ignore_future_data=None):
-		
+	def __init__(self, query, **kwargs):
+		self.query = query
+
 		# Parse args
-		args = locals()
-		for k,v in args.iteritems():
-			if k == 'self':
-				continue
+		for k,v in kwargs.iteritems():
 			setattr(self, k, v)
 
-		self.request_cache = {}
+		self.__request_cache = {}
 	
 
 	def __type_massage__(self, t):
@@ -68,8 +60,8 @@ class atlas_request:
 
 
 	def run(self, endpoint, skip_cache = False):
-		if not skip_cache and endpoint in self.request_cache:
-			return self.request_cache[endpoint]
+		if not skip_cache and endpoint in self.__request_cache:
+			return self.__request_cache[endpoint]
 
 		r = requests.get(self.uri(endpoint))
 		if r.status_code >= 400 and r.status_code < 500:
@@ -93,7 +85,7 @@ class atlas_request:
 			raise atlas_server_error('Atlas a bad status with no error code. Status: %s, Status message: %s', raw_json['status'], raw_json.get('status_message', ''))
 
 		ar = atlas_response(raw_json)
-		self.request_cache[endpoint] = ar
+		self.__request_cache[endpoint] = ar
 		return ar
 
 
