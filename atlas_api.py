@@ -59,7 +59,7 @@ class atlas_request:
 		return self.uri(endpoint)
 
 
-	def run(self, endpoint, skip_cache = False):
+	def run_raw(self, endpoint, skip_cache = False):
 		if not skip_cache and endpoint in self.__request_cache:
 			return self.__request_cache[endpoint]
 
@@ -83,6 +83,12 @@ class atlas_request:
 			raise atlas_server_error('Atlas returned an object with no status')
 		if raw_json['status'] != 'OK':
 			raise atlas_server_error('Atlas a bad status with no error code. Status: %s, Status message: %s', raw_json['status'], raw_json.get('status_message', ''))
+
+		return raw_json
+
+
+	def run(self, endpoint, skip_cache = False):
+		raw_json = self.run_raw(endpoint, skip_cache)
 
 		ar = atlas_response(raw_json)
 		self.__request_cache[endpoint] = ar
