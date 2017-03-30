@@ -22,7 +22,12 @@ class atlas_request:
 
 		# Parse args
 		for k,v in kwargs.iteritems():
-			setattr(self, k, v)
+			if isinstance(basestring, k):
+				k = k.strip()
+			if isinstance(basestring, v):
+				v = v.strip()
+			if k and v:
+				setattr(self, k, v)
 
 		self.__request_cache = {}
 	
@@ -84,15 +89,14 @@ class atlas_request:
 		if raw_json['status'] != 'OK':
 			raise atlas_server_error('Atlas a bad status with no error code. Status: %s, Status message: %s', raw_json['status'], raw_json.get('status_message', ''))
 
+		self.__request_cache[endpoint] = raw_json
+
 		return raw_json
 
 
 	def run(self, endpoint, skip_cache = False):
 		raw_json = self.run_raw(endpoint, skip_cache)
-
-		ar = atlas_response(raw_json)
-		self.__request_cache[endpoint] = ar
-		return ar
+		return atlas_response(raw_json)
 
 
 	# The various endpoint utility functions...
@@ -130,6 +134,7 @@ class atlas_request:
 	def query_test(self): return self.run('query-test').output
 	def events(self): return self.run('events').output
 	def stories(self): return self.run('stories').output
+	def entities(self): return self.run('entities').output
 	def meta(self): return self.run('volume').meta
 
 
