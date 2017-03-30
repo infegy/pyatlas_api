@@ -135,7 +135,7 @@ class atlas_request:
 	def events(self): return self.run('events').output
 	def stories(self): return self.run('stories').output
 	def entities(self): return self.run('entities').output
-	def meta(self): return self.run('volume').meta
+	def meta(self): return self.run('volume').query_meta
 
 
 class atlas_response(object):
