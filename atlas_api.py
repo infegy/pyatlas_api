@@ -22,9 +22,9 @@ class atlas_request:
 
 		# Parse args
 		for k,v in kwargs.iteritems():
-			if isinstance(basestring, k):
+			if isinstance(k, basestring):
 				k = k.strip()
-			if isinstance(basestring, v):
+			if isinstance(v, basestring):
 				v = v.strip()
 			if k and v:
 				setattr(self, k, v)
