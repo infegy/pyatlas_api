@@ -1,7 +1,4 @@
-try:
-	from urllib import quote_plus
-except ImportError:
-	from urllib.parse import quote_plus
+from urllib.parse import quote_plus
 from datetime import datetime, date
 import dateutil.parser
 import requests
