@@ -1,9 +1,7 @@
-from urllib import quote_plus
+from urllib.parse import quote_plus
 from datetime import datetime, date
-from types import MethodType
 import dateutil.parser
 import requests
-import json
 
 
 class atlas_request_error(Exception):
@@ -21,10 +19,10 @@ class atlas_request:
 		self.query = query
 
 		# Parse args
-		for k,v in kwargs.iteritems():
-			if isinstance(k, basestring):
+		for k,v in kwargs.items():
+			if isinstance(k, str):
 				k = k.strip()
-			if isinstance(v, basestring):
+			if isinstance(v, str):
 				v = v.strip()
 			if k and v:
 				setattr(self, k, v)
@@ -140,8 +138,8 @@ class atlas_request:
 
 class atlas_response(object):
 	def __init__(self, obj):
-		for k,v in obj.iteritems():
-			if isinstance(v, basestring):
+		for k,v in obj.items():
+			if isinstance(v, str):
 				if 8 < len(v) < 22:
 					try:
 						dt = dateutil.parser.parse(v)
@@ -150,7 +148,7 @@ class atlas_response(object):
 					except ValueError:
 						pass
 				setattr(self, k, v)
-			elif type(v) in (float, int, date, datetime, bool, long):
+			elif type(v) in (float, int, date, datetime, bool):
 				setattr(self, k, v)
 			elif isinstance(v, dict):
 				setattr(self, k, atlas_response(v))

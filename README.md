@@ -11,7 +11,7 @@ atlas_request.ATLAS_API_KEY = 'your API key here'
 q = atlas_request('bananas', start_date='3 months ago', end_date='now', channels=['twitter', 'images'])
 
 for day in q.sentiment():
-	print day.date.isostr(), day.positive_subject_sentences
+	print(day.date, day.positive_subject_sentences)
 ```
 
 The parameters to atlas_request match those listed under Query Parameters in the API documentation. If the type is a list, you can use a python list.
