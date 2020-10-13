@@ -225,7 +225,7 @@ class atlas_response(object):
                         dt = dateutil.parser.parse(v)
                         setattr(self, k, dt)
                         continue
-                    except ValueError:
+                    except (ValueError, OverflowError):
                         pass
                 setattr(self, k, v)
             elif type(v) in (float, int, date, datetime, bool):
